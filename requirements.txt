@@ -1,0 +1,7 @@
+crewai[tools]>=0.51.0
+python-dotenv>=1.0.1
+langchain-google-community>=1.0.6
+langchain-openai>=0.1.22
+google-api-python-client>=2.137.0
+litellm                      # Required for Groq and other non-native providers
+groq                         # Groq SDK (free, fast, supports tool calling)

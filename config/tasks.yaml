@@ -1,0 +1,40 @@
+research_task:
+  description: >
+    Research the following story prompt: '{story_prompt}'. 
+    Identify key characters, their attributes, important locations, and traditional myth arcs. 
+    Gather factual lore and context using your search tools.
+  expected_output: >
+    A detailed summary of the mythological facts, character profiles, and key lore elements.
+
+blueprint_task:
+  description: >
+    Using the research provided, create a structured story blueprint. 
+    The blueprint must include:
+    - Introduction (setting the scene and characters)
+    - Rising Action (the conflict or quest)
+    - Climax (the peak of the adventure)
+    - Falling Action & Resolution (how it ends)
+  expected_output: >
+    A structured plot outline broken down into Introduction, Rising Action, Climax, and Resolution.
+
+moral_task:
+  description: >
+    Analyze the story blueprint and extract a meaningful, kid-friendly moral lesson. 
+    The moral should teach virtues like courage, honesty, kindness, or wisdom without being overly preachy.
+  expected_output: >
+    A clear, inspiring 1-2 sentence moral lesson tailored for children.
+
+story_task:
+  description: >
+    Write the complete story based on the blueprint and incorporate the moral lesson seamlessly at the end. 
+    Use engaging, descriptive, and child-friendly language. Make the characters feel alive and the adventure exciting.
+  expected_output: >
+    A full, beautifully written short story (approx. 500-800 words) ending with the moral.
+
+validation_task:
+  description: >
+    Review the final story drafted by the Story Weaver. 
+    Ensure the vocabulary is suitable for children (ages 8-12), the pacing is good, 
+    and it aligns with the original mythological research. Fix any minor grammatical or tonal issues.
+  expected_output: >
+    The final, polished version of the story, ready to be read to children.
