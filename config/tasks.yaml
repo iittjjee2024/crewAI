@@ -4,7 +4,7 @@ research_task:
     Identify key characters, their attributes, important locations, and traditional myth arcs. 
     Gather factual lore and context using your search tools.
   expected_output: >
-    A detailed summary of the mythological facts, character profiles, and key lore elements.
+    A detailed summary of the mythological facts, character profiles, and key lore elements and context relevant to the story prompt.
 
 blueprint_task:
   description: >
