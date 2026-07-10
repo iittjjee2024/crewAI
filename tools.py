@@ -3,8 +3,10 @@ from dotenv import load_dotenv
 from crewai.tools import tool
 from langchain_google_community import GoogleSearchAPIWrapper
 
-# Load .env variables so the Google Search wrapper can pick them up
-load_dotenv()
+# Load .env variables so the Google Search wrapper can pick them up.
+# override=True is needed because the system has stale env vars that
+# would otherwise shadow the correct values from .env.
+load_dotenv(override=True)
 
 # Lazy-init: the wrapper is created inside the tool function to ensure
 # env vars are loaded before the wrapper reads them.

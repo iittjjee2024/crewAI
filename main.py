@@ -26,6 +26,7 @@ from agents.architect import create_architect
 from agents.moral_guide import create_moral_guide
 from agents.story_weaver import create_story_weaver
 from agents.validator import create_validator
+from agents.car_buy import create_car_buyer
 from tasks import create_tasks
 
 
@@ -84,18 +85,18 @@ def main():
 
     # ── 2. Parse the story prompt ─────────────────────────────────────────────
     parser = argparse.ArgumentParser(
-        description="Mythological Story Generator using CrewAI"
+        description="Car Buying Assistant using CrewAI"
     )
     parser.add_argument(
         "--prompt",
         type=str,
-        default="The Tale of young Hercules and his first trial",
-        help="The mythological story prompt to generate",
+        default="Find me a reliable used sedan within my budget.",
+        help="The car buying prompt to generate",
     )
     args = parser.parse_args()
 
     story_prompt = args.prompt
-    print(f"\n=== Starting Mythology Story Generation Pipeline ===")
+    print(f"\n=== Starting Car Buying Pipeline ===")
     print(f"Prompt: '{story_prompt}'\n")
 
     # ── 3. Load YAML configs ──────────────────────────────────────────────────
@@ -104,11 +105,7 @@ def main():
     tasks_config = load_yaml(os.path.join(base_dir, "config", "tasks.yaml"))
 
     # ── 4. Initialize Agents ──────────────────────────────────────────────────
-    researcher  = create_researcher(agents_config["mythology_researcher"], llm)
-    architect   = create_architect(agents_config["blueprint_architect"], llm)
-    moral_guide = create_moral_guide(agents_config["moral_guide"], llm)
-    story_weaver = create_story_weaver(agents_config["story_weaver"], llm)
-    validator   = create_validator(agents_config["quality_validator"], llm)
+    car_buyer = create_car_buyer(agents_config["car_buyer"], llm)
 
     # NOTE: If you are NOT using Groq (i.e. using OpenRouter's free tier),
     # the Researcher cannot use the Google Search tool because OpenRouter's
@@ -118,17 +115,13 @@ def main():
     # ── 5. Initialize Tasks ───────────────────────────────────────────────────
     tasks = create_tasks(
         tasks_config,
-        researcher,
-        architect,
-        moral_guide,
-        story_weaver,
-        validator,
+        car_buyer,
         story_prompt,
     )
 
     # ── 6. Create the Crew ────────────────────────────────────────────────────
     story_crew = Crew(
-        agents=[researcher, architect, moral_guide, story_weaver, validator],
+        agents=[car_buyer],
         tasks=tasks,
         process=Process.sequential,  # Tasks run one after the other
         verbose=True,
@@ -138,11 +131,20 @@ def main():
     print("Initiating CrewAI sequence...\n")
     result = story_crew.kickoff()
 
+    output_text = str(result)
     print("\n==================================================")
-    print("============= FINAL GENERATED STORY ==============")
+    print("============= FINAL CAR RECOMMENDATIONS ==============")
     print("==================================================\n")
-    print(result)
+    print(output_text)
     print("\n==================================================")
+
+    # ── 8. Save output to a .txt file in the same folder ──────────────────────
+    output_path = os.path.join(base_dir, "car_recommendations.txt")
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write("=== FINAL CAR RECOMMENDATIONS ===\n\n")
+        f.write(output_text)
+        f.write("\n\n==================================\n")
+    print(f"\n📁 Output saved to: {output_path}")
 
 
 if __name__ == "__main__":

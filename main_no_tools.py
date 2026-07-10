@@ -37,18 +37,18 @@ def main():
 
     # Parse command line arguments for the story prompt
     parser = argparse.ArgumentParser(
-        description="Mythological Story Generator using CrewAI"
+        description="Car Buying Assistant using CrewAI"
     )
     parser.add_argument(
         "--prompt",
         type=str,
-        default="The Tale of young Hercules and his first trial",
-        help="The mythological story prompt to generate",
+        default="Find me a reliable used sedan within my budget.",
+        help="The car buying prompt to generate",
     )
     args = parser.parse_args()
 
     story_prompt = args.prompt
-    print(f"\\n=== Starting Mythology Story Generation Pipeline ===")
+    print(f"\\n=== Starting Car Buying Pipeline ===")
     print(f"Prompt: '{story_prompt}'\\n")
 
     # Load YAML configs
@@ -57,14 +57,14 @@ def main():
     tasks_config = load_yaml(os.path.join(base_dir, "config", "tasks.yaml"))
 
     # 1. Initialize Agents
-    researcher = create_researcher(agents_config["mythology_researcher"], llm)
+    car_buyer = create_car_buyer(agents_config["car_buyer"], llm)
 
     # ------------------------------------------------------------------
     # HOTFIX: OpenRouter's FREE tier models do not support Tool Calling.
     # We must explicitly clear the tools list so the Researcher uses its
     # internal knowledge instead of crashing OpenRouter's API.
     # ------------------------------------------------------------------
-    researcher.tools = []
+    car_buyer.tools = []
 
     architect = create_architect(agents_config["blueprint_architect"], llm)
     moral_guide = create_moral_guide(agents_config["moral_guide"], llm)
@@ -74,7 +74,7 @@ def main():
     # 2. Initialize Tasks
     tasks = create_tasks(
         tasks_config,
-        researcher,
+        car_buyer,
         architect,
         moral_guide,
         story_weaver,
@@ -84,7 +84,7 @@ def main():
 
     # 3. Create the Crew
     story_crew = Crew(
-        agents=[researcher, architect, moral_guide, story_weaver, validator],
+        agents=[car_buyer, architect, moral_guide, story_weaver, validator],
         tasks=tasks,
         process=Process.sequential,  # Tasks will be executed one after the other
         verbose=True,
@@ -96,7 +96,7 @@ def main():
 
     # 5. Output the result
     print("\\n==================================================")
-    print("============= FINAL GENERATED STORY ==============")
+    print("============= FINAL CAR RECOMMENDATIONS ==============")
     print("==================================================\\n")
     print(result)
     print("\\n==================================================")

@@ -38,3 +38,11 @@ validation_task:
     and it aligns with the original mythological research. Fix any minor grammatical or tonal issues.
   expected_output: >
     The final, polished version of the story, ready to be read to children.
+
+car_buying_task:
+  description: >
+    Assist the user in finding the best car deals based on their preferences and budget. 
+    Use your knowledge of the automotive market, pricing trends, and dealership tactics to provide informed recommendations.
+  expected_output: >
+    A list of recommended cars that fit the user's criteria, including price comparisons, pros and cons, and any relevant tips for negotiation or purchase.
+    
